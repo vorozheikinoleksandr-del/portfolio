@@ -1,0 +1,1262 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Саша — Портфолио</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#F2EDE4;
+    --paper-2:#E8E1D4;
+    --paper-3:#DDD3C0;
+    --ink:#141210;
+    --ink-2:#4A443D;
+    --ink-3:#8A8074;
+    --line:rgba(20,18,16,.12);
+    --line-strong:rgba(20,18,16,.28);
+    --accent:#B33F1F;
+
+    --font-display:'Instrument Serif',serif;
+    --font-body:'Inter',sans-serif;
+    --font-mono:'JetBrains Mono',monospace;
+
+    --ease:cubic-bezier(.22,1,.36,1);
+    --pad-x:44px;
+    --pad-y:110px;
+  }
+  @media(max-width:900px){
+    :root{--pad-x:28px;--pad-y:80px;}
+  }
+  @media(max-width:640px){
+    :root{--pad-x:20px;--pad-y:60px;}
+  }
+
+  *{margin:0;padding:0;box-sizing:border-box;}
+  html{scroll-behavior:smooth; -webkit-text-size-adjust:100%;}
+  body{
+    font-family:var(--font-body);
+    background:var(--paper);
+    color:var(--ink);
+    overflow-x:hidden;
+    cursor:none;
+    -webkit-font-smoothing:antialiased;
+    position:relative;
+    min-height:100vh;
+  }
+  ::selection{background:var(--ink);color:var(--paper);}
+  @media(hover:none){body{cursor:auto;}}
+
+  body:before{
+    content:'';position:fixed;inset:0;pointer-events:none;z-index:1;
+    background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 300 300' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    opacity:.25;
+    mix-blend-mode:multiply;
+  }
+
+  /* ---------- CURSOR (только для мыши) ---------- */
+  .cursor-dot{
+    position:fixed;top:0;left:0;
+    width:10px;height:10px;
+    background:var(--accent);
+    border-radius:50%;
+    pointer-events:none;z-index:99999;
+    transform:translate(-50%,-50%);
+    will-change:transform;
+    box-shadow:0 0 0 2px rgba(242,237,228,.9), 0 0 12px rgba(179,63,31,.5);
+    transition:width .25s var(--ease), height .25s var(--ease);
+  }
+  .cursor-ring{
+    position:fixed;top:0;left:0;
+    width:44px;height:44px;
+    border:1.5px solid rgba(20,18,16,.55);
+    border-radius:50%;
+    pointer-events:none;z-index:99998;
+    transform:translate(-50%,-50%);
+    will-change:transform;
+    transition:width .35s var(--ease), height .35s var(--ease), border-color .35s var(--ease), background .35s var(--ease);
+  }
+  .cursor-ring.hover{
+    width:76px;height:76px;
+    border-color:var(--accent);
+    background:rgba(179,63,31,.06);
+  }
+  .cursor-dot.hover{width:14px;height:14px;}
+  @media (hover:none),(max-width:900px){
+    .cursor-dot,.cursor-ring{display:none !important;}
+    body{cursor:auto !important;}
+  }
+
+  /* ---------- TOP BAR ---------- */
+  .top{
+    position:fixed;
+    top:0;left:0;right:0;
+    z-index:100;
+    padding:20px var(--pad-x);
+    padding-top:max(20px, env(safe-area-inset-top));
+    display:flex;align-items:center;justify-content:space-between;
+    gap:16px;
+    background:rgba(242,237,228,.82);
+    backdrop-filter:blur(14px);
+    -webkit-backdrop-filter:blur(14px);
+    border-bottom:1px solid var(--line);
+  }
+  @media(max-width:640px){.top{padding:14px var(--pad-x);padding-top:max(14px, env(safe-area-inset-top));}}
+
+  .brand{
+    font-family:var(--font-mono);
+    font-size:12px;
+    font-weight:500;
+    letter-spacing:.12em;
+    text-transform:uppercase;
+    color:var(--ink);
+    display:flex;align-items:center;gap:10px;
+    white-space:nowrap;
+  }
+  .brand .mark{
+    display:inline-block;
+    width:8px;height:8px;
+    background:var(--accent);
+    border-radius:50%;
+    flex-shrink:0;
+  }
+  @media(max-width:400px){.brand{font-size:11px;}}
+
+  .top-nav{display:flex;gap:28px;align-items:center;}
+  .top-nav a{
+    font-family:var(--font-mono);
+    font-size:11px;
+    font-weight:500;
+    letter-spacing:.12em;
+    text-transform:uppercase;
+    color:var(--ink-2);
+    text-decoration:none;
+    cursor:none;
+    transition:color .3s var(--ease);
+    display:flex;align-items:center;gap:8px;
+    white-space:nowrap;
+  }
+  .top-nav a .idx{color:var(--ink-3);font-size:10px;}
+  .top-nav a:hover{color:var(--accent);}
+
+  @media(max-width:640px){
+    .top-nav{gap:14px;}
+    .top-nav a{font-size:10px;letter-spacing:.08em;}
+    .top-nav a .idx{display:none;}
+  }
+  @media(max-width:400px){
+    .brand span:last-child{display:none;}
+    .top-nav{gap:10px;}
+    .top-nav a{font-size:10px;}
+  }
+
+  .top-time{
+    font-family:var(--font-mono);
+    font-size:11px;
+    letter-spacing:.1em;
+    color:var(--ink-3);
+    text-transform:uppercase;
+    white-space:nowrap;
+  }
+  @media(max-width:900px){.top-time{display:none;}}
+
+  /* ---------- LAYOUT ---------- */
+  main{padding-top:130px;position:relative;z-index:2;}
+  @media(max-width:900px){main{padding-top:110px;}}
+  @media(max-width:640px){main{padding-top:90px;}}
+
+  .container{
+    max-width:1360px;
+    margin:0 auto;
+    padding:0 var(--pad-x);
+  }
+
+  /* ---------- HERO ---------- */
+  .hero{
+    padding-bottom:110px;
+    border-bottom:1px solid var(--line);
+  }
+  @media(max-width:900px){.hero{padding-bottom:70px;}}
+  @media(max-width:640px){.hero{padding-bottom:50px;}}
+
+  .hero-top-row{
+    display:grid;
+    grid-template-columns:1fr 1fr 1fr;
+    gap:32px;
+    padding-bottom:32px;
+    margin-bottom:56px;
+    border-bottom:1px solid var(--line);
+    font-family:var(--font-mono);
+    font-size:11px;
+    letter-spacing:.1em;
+    text-transform:uppercase;
+    color:var(--ink-3);
+  }
+  .hero-top-row .right{text-align:right;}
+  .hero-top-row .center{text-align:center;}
+  .hero-top-row .right b{color:var(--accent);font-weight:500;}
+
+  @media(max-width:900px){
+    .hero-top-row{
+      grid-template-columns:1fr;
+      gap:8px;
+      text-align:left;
+      margin-bottom:32px;
+      padding-bottom:18px;
+      font-size:10px;
+    }
+    .hero-top-row .right,
+    .hero-top-row .center{text-align:left;}
+  }
+
+  .hero h1{
+    font-family:var(--font-display);
+    font-weight:400;
+    font-size:clamp(52px,13.5vw,240px);
+    line-height:.88;
+    letter-spacing:-.035em;
+    color:var(--ink);
+    margin-bottom:48px;
+    word-break:break-word;
+    overflow-wrap:anywhere;
+  }
+  .hero h1 .row{display:block;overflow:hidden;padding-bottom:.03em;}
+  .hero h1 .row span{
+    display:inline-block;
+    transform:translateY(112%);
+    animation:rise 1.4s var(--ease) forwards;
+  }
+  .hero h1 .row:nth-child(2) span{animation-delay:.12s;}
+  .hero h1 .row:nth-child(3) span{animation-delay:.24s;}
+  .hero h1 em{font-style:italic;color:var(--accent);}
+  .hero h1 .dim{color:var(--ink-3);}
+  @keyframes rise{to{transform:translateY(0);}}
+
+  @media(max-width:640px){
+    .hero h1{font-size:clamp(46px,14vw,72px);margin-bottom:36px;line-height:.92;}
+  }
+
+  .hero-meta{
+    display:grid;
+    grid-template-columns:1.4fr 1fr 1fr;
+    gap:48px;
+    padding-top:32px;
+    border-top:1px solid var(--line);
+  }
+  @media(max-width:900px){.hero-meta{grid-template-columns:1fr;gap:24px;}}
+
+  .hero-meta p{
+    font-size:15px;
+    line-height:1.6;
+    color:var(--ink-2);
+    max-width:440px;
+  }
+  .hero-meta p b{color:var(--ink);font-weight:500;}
+
+  .hero-meta .meta-block .k{
+    font-family:var(--font-mono);
+    font-size:10px;
+    letter-spacing:.14em;
+    text-transform:uppercase;
+    color:var(--ink-3);
+    margin-bottom:10px;
+  }
+  .hero-meta .meta-block .v{
+    font-family:var(--font-display);
+    font-size:22px;
+    line-height:1.2;
+    letter-spacing:-.01em;
+    color:var(--ink);
+  }
+  .hero-meta .meta-block .v em{font-style:italic;color:var(--accent);}
+
+  /* ---------- SECTION ---------- */
+  section.block{
+    padding:var(--pad-y) 0;
+    border-bottom:1px solid var(--line);
+  }
+
+  .s-head{
+    display:grid;
+    grid-template-columns:180px 1fr 260px;
+    gap:48px;
+    align-items:start;
+    margin-bottom:64px;
+  }
+  @media(max-width:900px){
+    .s-head{grid-template-columns:1fr;gap:18px;margin-bottom:42px;}
+  }
+
+  .s-num{
+    font-family:var(--font-mono);
+    font-size:11px;
+    letter-spacing:.14em;
+    text-transform:uppercase;
+    color:var(--ink-3);
+    display:flex;align-items:center;gap:14px;
+    padding-top:14px;
+  }
+  .s-num .line{flex:1;height:1px;background:var(--line-strong);max-width:60px;}
+  .s-num b{color:var(--accent);font-weight:500;}
+
+  .s-title{
+    font-family:var(--font-display);
+    font-weight:400;
+    font-size:clamp(38px,6.5vw,92px);
+    line-height:1;
+    letter-spacing:-.03em;
+    color:var(--ink);
+  }
+  .s-title em{font-style:italic;color:var(--accent);}
+
+  .s-desc{
+    font-size:14px;
+    line-height:1.7;
+    color:var(--ink-2);
+    padding-top:16px;
+    max-width:300px;
+  }
+  @media(max-width:900px){.s-desc{padding-top:0;max-width:none;}}
+
+  /* ---------- ABOUT ---------- */
+  .about-grid{
+    display:grid;
+    grid-template-columns:1fr 1.6fr;
+    gap:72px;
+    align-items:start;
+  }
+  @media(max-width:900px){.about-grid{grid-template-columns:1fr;gap:40px;}}
+
+  .portrait{
+    aspect-ratio:4/5;
+    background:var(--paper-2);
+    border:1px solid var(--line-strong);
+    position:relative;
+    overflow:hidden;
+    max-width:480px;
+    width:100%;
+  }
+  @media(max-width:900px){
+    .portrait{aspect-ratio:1/1;max-width:100%;}
+  }
+  .portrait:before{
+    content:'';position:absolute;inset:0;
+    background:
+      radial-gradient(circle at 30% 25%, rgba(179,63,31,.1), transparent 55%),
+      repeating-linear-gradient(0deg, transparent 0, transparent 30px, rgba(20,18,16,.03) 31px);
+    pointer-events:none;
+  }
+  .portrait:after{
+    content:'';position:absolute;inset:20px;
+    border:1px solid rgba(20,18,16,.15);
+    pointer-events:none;
+  }
+  .portrait .stamp{
+    position:absolute;
+    top:30px;left:30px;
+    font-family:var(--font-mono);
+    font-size:10px;
+    letter-spacing:.16em;
+    text-transform:uppercase;
+    color:var(--ink-3);
+    writing-mode:vertical-rl;
+  }
+  .portrait .stamp-2{
+    position:absolute;
+    bottom:30px;right:30px;
+    font-family:var(--font-mono);
+    font-size:10px;
+    letter-spacing:.16em;
+    text-transform:uppercase;
+    color:var(--accent);
+    writing-mode:vertical-rl;
+    transform:rotate(180deg);
+  }
+  .portrait .initials{
+    position:absolute;
+    top:50%;left:50%;
+    transform:translate(-50%,-50%);
+    font-family:var(--font-display);
+    font-size:clamp(110px,18vw,220px);
+    line-height:1;
+    color:var(--ink);
+    letter-spacing:-.05em;
+    display:flex;
+    align-items:baseline;
+  }
+  .portrait .initials em{font-style:italic;color:var(--accent);margin:0 -.05em;}
+  .portrait .crosshair{
+    position:absolute;
+    top:50%;left:50%;
+    width:140px;height:140px;
+    transform:translate(-50%,-50%);
+    opacity:.35;
+    pointer-events:none;
+  }
+
+  .about-copy{padding-top:8px;}
+  .about-copy .lead{
+    font-family:var(--font-display);
+    font-size:clamp(24px,3vw,40px);
+    line-height:1.2;
+    letter-spacing:-.02em;
+    color:var(--ink);
+    margin-bottom:32px;
+    max-width:620px;
+  }
+  .about-copy .lead em{font-style:italic;color:var(--accent);}
+  .about-copy .lead .dim{color:var(--ink-3);}
+
+  .about-cols{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:40px;
+    margin-bottom:48px;
+  }
+  @media(max-width:640px){.about-cols{grid-template-columns:1fr;gap:24px;}}
+
+  .about-cols p{
+    font-size:15px;
+    line-height:1.75;
+    color:var(--ink-2);
+  }
+  .about-cols p strong{color:var(--ink);font-weight:500;}
+  .about-cols p + p{margin-top:16px;}
+
+  .about-cols .col-title{
+    font-family:var(--font-mono);
+    font-size:10px;
+    letter-spacing:.16em;
+    text-transform:uppercase;
+    color:var(--ink-3);
+    margin-bottom:16px;
+    padding-bottom:12px;
+    border-bottom:1px solid var(--line);
+  }
+
+  .skill-list{list-style:none;}
+  .skill-list li{
+    display:flex;
+    justify-content:space-between;
+    align-items:baseline;
+    padding:11px 0;
+    border-bottom:1px solid var(--line);
+    font-family:var(--font-mono);
+    font-size:12px;
+    letter-spacing:.02em;
+    color:var(--ink-2);
+    transition:all .3s var(--ease);
+    cursor:none;
+  }
+  .skill-list li .n{color:var(--ink-3);font-size:10px;letter-spacing:.1em;}
+  .skill-list li:hover{color:var(--accent);padding-left:8px;}
+  .skill-list li:hover .n{color:var(--accent);}
+
+  /* ---------- STATS ---------- */
+  .stats{
+    margin-top:72px;
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    border-top:1px solid var(--line-strong);
+    border-bottom:1px solid var(--line-strong);
+  }
+  @media(max-width:900px){.stats{grid-template-columns:repeat(2,1fr);margin-top:48px;}}
+
+  .stat{
+    padding:40px 28px 36px;
+    border-right:1px solid var(--line);
+    position:relative;
+    transition:background .4s var(--ease);
+  }
+  .stat:last-child{border-right:none;}
+  @media(max-width:900px){
+    .stat:nth-child(2n){border-right:none;}
+    .stat{border-bottom:1px solid var(--line);}
+    .stat:nth-last-child(-n+2){border-bottom:none;}
+    .stat{padding:32px 22px 28px;}
+  }
+  .stat:hover{background:var(--paper-2);}
+  .stat .num{
+    font-family:var(--font-display);
+    font-size:clamp(48px,6vw,84px);
+    font-weight:400;
+    line-height:1;
+    letter-spacing:-.04em;
+    color:var(--ink);
+    margin-bottom:14px;
+  }
+  .stat .num em{font-style:italic;color:var(--accent);font-size:.65em;}
+  .stat .lbl{
+    font-family:var(--font-mono);
+    font-size:10px;
+    letter-spacing:.16em;
+    text-transform:uppercase;
+    color:var(--ink-3);
+  }
+
+  /* ============================================ */
+  /* REVIEWS — все одинаковые                     */
+  /* ============================================ */
+  .reviews{
+    display:grid;
+    grid-template-columns:repeat(3, 1fr);
+    gap:20px;
+  }
+  @media(max-width:1100px){
+    .reviews{grid-template-columns:repeat(2, 1fr);}
+  }
+  @media(max-width:700px){
+    .reviews{grid-template-columns:1fr;gap:16px;}
+  }
+
+  .review{
+    background:var(--paper);
+    border:1px solid var(--line-strong);
+    padding:30px 28px 24px;
+    position:relative;
+    display:flex;
+    flex-direction:column;
+    transition:all .4s var(--ease);
+    cursor:none;
+    min-height:280px;
+  }
+  @media(max-width:700px){
+    .review{padding:26px 22px 22px;min-height:auto;}
+  }
+  .review:hover{
+    transform:translateY(-4px);
+    border-color:var(--accent);
+    box-shadow:0 18px 40px -20px rgba(20,18,16,.25);
+  }
+
+  .review .quote-mark{
+    font-family:var(--font-display);
+    font-size:72px;
+    line-height:.7;
+    color:var(--accent);
+    opacity:.85;
+    font-style:italic;
+    display:block;
+    height:40px;
+    overflow:hidden;
+    margin-bottom:6px;
+  }
+  @media(max-width:700px){
+    .review .quote-mark{font-size:64px;height:36px;}
+  }
+
+  .review .badge{
+    position:absolute;
+    top:22px;right:22px;
+    font-family:var(--font-mono);
+    font-size:10px;
+    letter-spacing:.16em;
+    color:var(--ink-3);
+    text-transform:uppercase;
+    border:1px solid var(--line-strong);
+    padding:4px 10px;
+    background:var(--paper-2);
+    transition:all .35s var(--ease);
+  }
+  .review:hover .badge{
+    background:var(--ink);
+    color:var(--paper);
+    border-color:var(--ink);
+  }
+
+  .review .stars{
+    color:var(--accent);
+    font-size:12px;
+    letter-spacing:.32em;
+    margin-bottom:14px;
+    font-family:var(--font-body);
+  }
+
+  .review .text{
+    font-family:var(--font-display);
+    font-size:18px;
+    line-height:1.45;
+    letter-spacing:-.005em;
+    color:var(--ink);
+    margin-bottom:auto;
+    padding-bottom:22px;
+  }
+  @media(max-width:700px){
+    .review .text{font-size:17px;}
+  }
+
+  .review .author{
+    display:flex;
+    align-items:center;
+    gap:14px;
+    padding-top:18px;
+    border-top:1px solid var(--line);
+  }
+  .review .av{
+    width:40px;height:40px;
+    border-radius:50%;
+    background:var(--paper-3);
+    border:1px solid var(--line-strong);
+    display:flex;align-items:center;justify-content:center;
+    font-family:var(--font-display);
+    font-size:17px;
+    font-style:italic;
+    color:var(--ink);
+    flex-shrink:0;
+    transition:all .35s var(--ease);
+  }
+  .review:hover .av{
+    background:var(--accent);
+    color:var(--paper);
+    border-color:var(--accent);
+  }
+  .review .author-info{
+    display:flex;
+    flex-direction:column;
+    gap:3px;
+    min-width:0;
+  }
+  .review .name{
+    font-family:var(--font-body);
+    font-size:14px;
+    font-weight:600;
+    color:var(--ink);
+    letter-spacing:.01em;
+  }
+  .review .role{
+    font-family:var(--font-mono);
+    font-size:10px;
+    letter-spacing:.12em;
+    text-transform:uppercase;
+    color:var(--ink-3);
+  }
+
+  /* ---------- CONTACT ---------- */
+  .contact-wrap{
+    display:grid;
+    grid-template-columns:1.2fr 1fr;
+    gap:72px;
+    align-items:start;
+  }
+  @media(max-width:900px){.contact-wrap{grid-template-columns:1fr;gap:40px;}}
+
+  .contact-title{
+    font-family:var(--font-display);
+    font-weight:400;
+    font-size:clamp(48px,9vw,140px);
+    line-height:.88;
+    letter-spacing:-.045em;
+    color:var(--ink);
+    margin-bottom:28px;
+  }
+  .contact-title em{font-style:italic;color:var(--accent);}
+  .contact-title .dot{color:var(--ink-3);}
+  @media(max-width:640px){
+    .contact-title{font-size:clamp(42px,12vw,72px);}
+  }
+
+  .contact-lead{
+    font-size:15px;
+    line-height:1.7;
+    color:var(--ink-2);
+    max-width:420px;
+    margin-bottom:36px;
+  }
+
+  .contact-actions{display:flex;gap:14px;flex-wrap:wrap;}
+  .btn{
+    font-family:var(--font-mono);
+    font-size:12px;
+    letter-spacing:.12em;
+    text-transform:uppercase;
+    padding:16px 26px;
+    border:1px solid var(--ink);
+    background:var(--ink);
+    color:var(--paper);
+    text-decoration:none;
+    cursor:none;
+    transition:all .35s var(--ease);
+    display:inline-flex;
+    align-items:center;
+    gap:10px;
+  }
+  @media(max-width:640px){
+    .contact-actions .btn{flex:1 1 auto;justify-content:center;padding:15px 20px;}
+  }
+  .btn:hover{
+    background:var(--accent);
+    border-color:var(--accent);
+    transform:translateY(-2px);
+  }
+  .btn-ghost{background:transparent;color:var(--ink);}
+  .btn-ghost:hover{background:var(--ink);color:var(--paper);border-color:var(--ink);}
+
+  .contact-list{display:flex;flex-direction:column;}
+  .contact-item{
+    display:grid;
+    grid-template-columns:96px 1fr auto;
+    gap:20px;
+    align-items:center;
+    padding:24px 0;
+    border-bottom:1px solid var(--line);
+    text-decoration:none;
+    color:var(--ink);
+    transition:all .4s var(--ease);
+    cursor:none;
+  }
+  .contact-item:first-child{border-top:1px solid var(--line);}
+  .contact-item .k{
+    font-family:var(--font-mono);
+    font-size:10px;
+    letter-spacing:.16em;
+    text-transform:uppercase;
+    color:var(--ink-3);
+  }
+  .contact-item .v{
+    font-family:var(--font-display);
+    font-size:clamp(16px,2vw,24px);
+    letter-spacing:-.01em;
+    color:var(--ink);
+    transition:color .3s var(--ease);
+    word-break:break-word;
+    overflow-wrap:anywhere;
+    min-width:0;
+  }
+  .contact-item .arr{
+    font-family:var(--font-mono);
+    font-size:14px;
+    color:var(--ink-3);
+    transition:all .4s var(--ease);
+    flex-shrink:0;
+  }
+  .contact-item:hover .v{color:var(--accent);}
+  .contact-item:hover .arr{color:var(--accent);transform:translate(4px,-4px);}
+
+  @media(max-width:640px){
+    .contact-item{
+      grid-template-columns:70px 1fr auto;
+      gap:12px;
+      padding:20px 0;
+    }
+    .contact-item .v{font-size:15px;}
+  }
+  @media(max-width:400px){
+    .contact-item{grid-template-columns:1fr auto;gap:8px;}
+    .contact-item .k{display:none;}
+  }
+
+  /* ---------- FOOTER ---------- */
+  footer{
+    padding:52px var(--pad-x) 32px;
+    padding-bottom:max(32px, env(safe-area-inset-bottom));
+    display:flex;
+    justify-content:space-between;
+    align-items:end;
+    gap:32px;
+    flex-wrap:wrap;
+    border-top:1px solid var(--line-strong);
+    background:var(--paper-2);
+    position:relative;
+    z-index:2;
+  }
+  @media(max-width:900px){
+    footer{
+      padding:40px var(--pad-x) 28px;
+      padding-bottom:max(28px, env(safe-area-inset-bottom));
+      flex-direction:column;
+      align-items:flex-start;
+      gap:20px;
+    }
+  }
+
+  footer .big{
+    font-family:var(--font-display);
+    font-size:clamp(42px,8vw,110px);
+    font-weight:400;
+    line-height:.9;
+    letter-spacing:-.045em;
+    color:var(--ink);
+  }
+  footer .big em{font-style:italic;color:var(--accent);}
+
+  footer .meta{
+    display:flex;flex-direction:column;gap:8px;
+    font-family:var(--font-mono);
+    font-size:11px;
+    letter-spacing:.14em;
+    text-transform:uppercase;
+    color:var(--ink-3);
+    text-align:right;
+  }
+  @media(max-width:900px){footer .meta{text-align:left;}}
+  footer .meta .row{display:flex;align-items:center;gap:8px;justify-content:flex-end;}
+  @media(max-width:900px){footer .meta .row{justify-content:flex-start;}}
+  footer .meta .dot{
+    display:inline-block;
+    width:6px;height:6px;border-radius:50%;
+    background:var(--accent);
+    animation:pulse 2s var(--ease) infinite;
+  }
+  @keyframes pulse{
+    0%,100%{opacity:1;transform:scale(1);}
+    50%{opacity:.4;transform:scale(.6);}
+  }
+
+  /* ---------- REVEAL ---------- */
+  .reveal{
+    opacity:0;
+    transform:translateY(40px);
+    transition:opacity 1s var(--ease), transform 1s var(--ease);
+  }
+  .reveal.on{opacity:1;transform:translateY(0);}
+
+  /* ---------- EXTRA SMALL (≤ 380px) ---------- */
+  @media(max-width:380px){
+    :root{--pad-x:16px;}
+    .hero h1{font-size:clamp(40px,13vw,56px);}
+    .s-title{font-size:clamp(32px,8vw,42px);}
+    .review{padding:22px 18px 20px;}
+    .review .text{font-size:16px;}
+    .contact-title{font-size:clamp(36px,11vw,58px);}
+    footer .big{font-size:clamp(36px,10vw,64px);}
+    .stat{padding:26px 16px 22px;}
+  }
+
+  /* ---------- ORIENTATION ---------- */
+  @media(max-width:900px) and (orientation:landscape){
+    main{padding-top:100px;}
+    .hero{padding-bottom:50px;}
+    section.block{padding:60px 0;}
+  }
+</style>
+</head>
+<body>
+
+<!-- CURSOR: точка + кольцо (только ПК) -->
+<div class="cursor-dot" id="cursorDot"></div>
+<div class="cursor-ring" id="cursorRing"></div>
+
+<!-- TOP -->
+<div class="top">
+  <div class="brand">
+    <span class="mark"></span>
+    <span>Саша — Портфолио</span>
+  </div>
+  <nav class="top-nav">
+    <a href="#about"><span class="idx">01</span> Обо мне</a>
+    <a href="#reviews"><span class="idx">02</span> Отзывы</a>
+    <a href="#contact"><span class="idx">03</span> Контакты</a>
+  </nav>
+  <div class="top-time" id="clock">--:--:--</div>
+</div>
+
+<main>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="container">
+      <div class="hero-top-row">
+        <span>Портфолио — 2026</span>
+        <span class="center">Архив / Выпуск 01</span>
+        <span class="right"><b>●</b> Доступен для проектов</span>
+      </div>
+
+      <h1>
+        <span class="row"><span>Делаю</span></span>
+        <span class="row"><span><span class="dim">то, что</span> <em>важно</em></span></span>
+        <span class="row"><span>работает.</span></span>
+      </h1>
+
+      <div class="hero-meta">
+        <p><b>Разработка, монтаж, фото.</b> Собираю сайты, монтирую видео, редактирую изображения — всё, что нужно, чтобы продукт выглядел и работал правильно.</p>
+        <div class="meta-block">
+          <div class="k">Специализация</div>
+          <div class="v">Full-stack<br><em>creative</em></div>
+        </div>
+        <div class="meta-block">
+          <div class="k">Локация / Формат</div>
+          <div class="v">Удалённо<br><em>по всему миру</em></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ABOUT -->
+  <section class="block reveal" id="about">
+    <div class="container">
+      <div class="s-head">
+        <div class="s-num"><span class="line"></span><b>01</b> / Обо мне</div>
+        <h2 class="s-title">Разработчик, <em>монтажёр</em><br>и фоторедактор</h2>
+        <p class="s-desc">Делаю цифровые продукты — от идеи и дизайна до финальной сборки и публикации.</p>
+      </div>
+
+      <div class="about-grid">
+        <div class="portrait">
+          <div class="stamp">Portrait — 2026</div>
+          <div class="stamp-2">Sasha / Portfolio</div>
+          <div class="crosshair">
+            <svg viewBox="0 0 140 140" fill="none">
+              <circle cx="70" cy="70" r="56" stroke="#141210" stroke-width="1"/>
+              <circle cx="70" cy="70" r="40" stroke="#B33F1F" stroke-width="1" stroke-dasharray="3 4"/>
+              <line x1="70" y1="4" x2="70" y2="30" stroke="#141210" stroke-width="1"/>
+              <line x1="70" y1="110" x2="70" y2="136" stroke="#141210" stroke-width="1"/>
+              <line x1="4" y1="70" x2="30" y2="70" stroke="#141210" stroke-width="1"/>
+              <line x1="110" y1="70" x2="136" y2="70" stroke="#141210" stroke-width="1"/>
+            </svg>
+          </div>
+          <div class="initials">С<em>&amp;</em>А</div>
+        </div>
+
+        <div class="about-copy">
+          <p class="lead">
+            Собираю <em>сайты</em>, монтирую <em>видео</em>, редактирую <em>фото</em>.<br>
+            <span class="dim">Закрываю весь цифровой стек в одном лице.</span>
+          </p>
+
+          <div class="about-cols">
+            <div>
+              <div class="col-title">Как я работаю</div>
+              <p>Работаю быстро, говорю прямо, сдаю в срок. <strong>Никаких «потом» и «не получилось» — только результат.</strong></p>
+              <p>Беру проекты, где нужно думать, а не просто нажимать кнопки.</p>
+            </div>
+            <div>
+              <div class="col-title">Стек</div>
+              <ul class="skill-list">
+                <li><span>HTML / CSS</span><span class="n">01</span></li>
+                <li><span>JavaScript / React</span><span class="n">02</span></li>
+                <li><span>Node.js</span><span class="n">03</span></li>
+                <li><span>Premiere Pro / DaVinci</span><span class="n">04</span></li>
+                <li><span>After Effects</span><span class="n">05</span></li>
+                <li><span>Photoshop / Lightroom</span><span class="n">06</span></li>
+                <li><span>Figma</span><span class="n">07</span></li>
+                <li><span>AI Tools</span><span class="n">08</span></li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- STATS -->
+      <div class="stats">
+        <div class="stat">
+          <div class="num" data-count="150">0<em>+</em></div>
+          <div class="lbl">Проектов</div>
+        </div>
+        <div class="stat">
+          <div class="num" data-count="5">0<em>+</em></div>
+          <div class="lbl">Лет опыта</div>
+        </div>
+        <div class="stat">
+          <div class="num" data-count="100">0<em>%</em></div>
+          <div class="lbl">Довольных</div>
+        </div>
+        <div class="stat">
+          <div class="num" data-count="24">0<em>/7</em></div>
+          <div class="lbl">На связи</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- REVIEWS -->
+  <section class="block reveal" id="reviews">
+    <div class="container">
+      <div class="s-head">
+        <div class="s-num"><span class="line"></span><b>02</b> / Отзывы</div>
+        <h2 class="s-title">Десять отзывов, <em>десять</em> историй</h2>
+        <p class="s-desc">Собрал десять отзывов от клиентов, с которыми работал за последний год.</p>
+      </div>
+
+      <div class="reviews">
+
+        <article class="review">
+          <span class="badge">001</span>
+          <span class="quote-mark">“</span>
+          <div class="stars">★★★★★</div>
+          <div class="text">Саша сделал сайт за три дня. Чётко, быстро, без лишних разговоров. Работает — и клиенты это видят.</div>
+          <div class="author">
+            <div class="av">А</div>
+            <div class="author-info">
+              <div class="name">Андрей</div>
+              <div class="role">Кофейня</div>
+            </div>
+          </div>
+        </article>
+
+        <article class="review">
+          <span class="badge">002</span>
+          <span class="quote-mark">“</span>
+          <div class="stars">★★★★★</div>
+          <div class="text">Монтаж — огонь. Понял задачу с полуслова и сдал раньше срока. Так держать!</div>
+          <div class="author">
+            <div class="av">М</div>
+            <div class="author-info">
+              <div class="name">Марина</div>
+              <div class="role">Продюсер</div>
+            </div>
+          </div>
+        </article>
+
+        <article class="review">
+          <span class="badge">003</span>
+          <span class="quote-mark">“</span>
+          <div class="stars">★★★★★</div>
+          <div class="text">Фото после ретуши — не узнать. Каталог зашёл клиентам на ура.</div>
+          <div class="author">
+            <div class="av">О</div>
+            <div class="author-info">
+              <div class="name">Олег</div>
+              <div class="role">Бренд-менеджер</div>
+            </div>
+          </div>
+        </article>
+
+        <article class="review">
+          <span class="badge">004</span>
+          <span class="quote-mark">“</span>
+          <div class="stars">★★★★★</div>
+          <div class="text">Магазин на React работает как часы. Ни одного бага за полгода.</div>
+          <div class="author">
+            <div class="av">Д</div>
+            <div class="author-info">
+              <div class="name">Дмитрий</div>
+              <div class="role">Основатель</div>
+            </div>
+          </div>
+        </article>
+
+        <article class="review">
+          <span class="badge">005</span>
+          <span class="quote-mark">“</span>
+          <div class="stars">★★★★★</div>
+          <div class="text">Общение лёгкое, правки вносит моментально, объясняет по-человечески. Буду заказывать ещё.</div>
+          <div class="author">
+            <div class="av">И</div>
+            <div class="author-info">
+              <div class="name">Ирина</div>
+              <div class="role">Маркетолог</div>
+            </div>
+          </div>
+        </article>
+
+        <article class="review">
+          <span class="badge">006</span>
+          <span class="quote-mark">“</span>
+          <div class="stars">★★★★★</div>
+          <div class="text">Ролик для инсты собрал в четыре раза больше просмотров. Спасибо!</div>
+          <div class="author">
+            <div class="av">В</div>
+            <div class="author-info">
+              <div class="name">Виктор</div>
+              <div class="role">SMM</div>
+            </div>
+          </div>
+        </article>
+
+        <article class="review">
+          <span class="badge">007</span>
+          <span class="quote-mark">“</span>
+          <div class="stars">★★★★★</div>
+          <div class="text">Сделал лендинг под ключ: дизайн, вёрстка, тексты. Всё сам, всё качественно.</div>
+          <div class="author">
+            <div class="av">Н</div>
+            <div class="author-info">
+              <div class="name">Наталья</div>
+              <div class="role">Студия</div>
+            </div>
+          </div>
+        </article>
+
+        <article class="review">
+          <span class="badge">008</span>
+          <span class="quote-mark">“</span>
+          <div class="stars">★★★★★</div>
+          <div class="text">Обработка фото для маркетплейса — быстро и недорого. Рекомендую.</div>
+          <div class="author">
+            <div class="av">С</div>
+            <div class="author-info">
+              <div class="name">Сергей</div>
+              <div class="role">Seller</div>
+            </div>
+          </div>
+        </article>
+
+        <article class="review">
+          <span class="badge">009</span>
+          <span class="quote-mark">“</span>
+          <div class="stars">★★★★★</div>
+          <div class="text">Саша — человек-оркестр. Код, видео, фото — всё на высоте.</div>
+          <div class="author">
+            <div class="av">Е</div>
+            <div class="author-info">
+              <div class="name">Елена</div>
+              <div class="role">Creative Director</div>
+            </div>
+          </div>
+        </article>
+
+        <article class="review">
+          <span class="badge">010</span>
+          <span class="quote-mark">“</span>
+          <div class="stars">★★★★★</div>
+          <div class="text">Работаем вместе уже год. Ни одного срыва дедлайна, ни одной недоделки. Надёжный исполнитель.</div>
+          <div class="author">
+            <div class="av">П</div>
+            <div class="author-info">
+              <div class="name">Павел</div>
+              <div class="role">Product Manager</div>
+            </div>
+          </div>
+        </article>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <section class="block reveal" id="contact">
+    <div class="container">
+      <div class="s-head">
+        <div class="s-num"><span class="line"></span><b>03</b> / Контакты</div>
+        <h2 class="s-title">Давай <em>работать</em></h2>
+        <p class="s-desc">Открыт для проектов любой сложности. Отвечаю в течение часа.</p>
+      </div>
+
+      <div class="contact-wrap">
+        <div>
+          <h3 class="contact-title">
+            Свяжись<br>
+            <em>со мной</em><span class="dot">.</span>
+          </h3>
+          <p class="contact-lead">Напиши — обсудим задачу, сроки и цену. Работаю быстро, отвечаю чётко, сдаю в срок.</p>
+
+          <div class="contact-actions">
+            <a href="https://t.me/Askerstreamer" target="_blank" class="btn">Написать в Telegram →</a>
+            <a href="mailto:shopvape053@gmail.com" class="btn btn-ghost">Email</a>
+          </div>
+        </div>
+
+        <div class="contact-list">
+          <a href="mailto:shopvape053@gmail.com" class="contact-item">
+            <span class="k">Email</span>
+            <span class="v">shopvape053@gmail.com</span>
+            <span class="arr">↗</span>
+          </a>
+          <a href="https://t.me/Askerstreamer" target="_blank" class="contact-item">
+            <span class="k">Telegram</span>
+            <span class="v">@Askerstreamer</span>
+            <span class="arr">↗</span>
+          </a>
+          <a href="#" class="contact-item" onclick="return false;">
+            <span class="k">Локация</span>
+            <span class="v">Удалённо · по всему миру</span>
+            <span class="arr">↗</span>
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<!-- FOOTER -->
+<footer>
+  <div class="big">Саша<br><em>Студия</em></div>
+  <div class="meta">
+    <div class="row"><span class="dot"></span><span>Открыт для проектов</span></div>
+    <div class="row"><span>© 2026</span></div>
+    <div class="row"><span>Сделано с вниманием</span></div>
+  </div>
+</footer>
+
+<script>
+  /* ============ CLOCK ============ */
+  const clockEl = document.getElementById('clock');
+  function tick(){
+    const d = new Date();
+    const p = n => String(n).padStart(2,'0');
+    clockEl.textContent = `${p(d.getHours())}:${p(d.getMinutes())}:${p(d.getSeconds())}`;
+  }
+  tick();
+  setInterval(tick, 1000);
+
+  /* ============ CURSOR (только ПК) ============ */
+  const isTouch = matchMedia('(hover:none)').matches || innerWidth <= 900;
+  const dot = document.getElementById('cursorDot');
+  const ring = document.getElementById('cursorRing');
+
+  if(!isTouch && dot && ring){
+    let mx = innerWidth/2, my = innerHeight/2;
+    let cx = mx, cy = my;
+
+    document.addEventListener('mousemove', e => {
+      mx = e.clientX; my = e.clientY;
+      dot.style.transform = `translate(${mx}px, ${my}px) translate(-50%,-50%)`;
+    }, {passive:true});
+
+    function loop(){
+      cx += (mx - cx) * 0.16;
+      cy += (my - cy) * 0.16;
+      ring.style.transform = `translate(${cx}px, ${cy}px) translate(-50%,-50%)`;
+      requestAnimationFrame(loop);
+    }
+    loop();
+
+    document.querySelectorAll('a, button, .skill-list li, .stat, .review, .contact-item, .top-nav a, .btn').forEach(el => {
+      el.addEventListener('mouseenter', () => {
+        ring.classList.add('hover');
+        dot.classList.add('hover');
+      });
+      el.addEventListener('mouseleave', () => {
+        ring.classList.remove('hover');
+        dot.classList.remove('hover');
+      });
+    });
+  }
+
+  /* ============ REVEAL ============ */
+  const io = new IntersectionObserver(entries => {
+    entries.forEach(en => { if(en.isIntersecting) en.target.classList.add('on'); });
+  }, {threshold: .08});
+  document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+
+  /* ============ COUNTERS ============ */
+  const counters = document.querySelectorAll('.num[data-count]');
+  const cIO = new IntersectionObserver(entries => {
+    entries.forEach(en => {
+      if(en.isIntersecting && !en.target.dataset.done){
+        en.target.dataset.done = '1';
+        const target = +en.target.dataset.count;
+        const suf = en.target.querySelector('em').outerHTML;
+        let n = 0;
+        const step = Math.max(1, Math.ceil(target / 50));
+        const t = setInterval(() => {
+          n += step;
+          if(n >= target){n = target; clearInterval(t);}
+          en.target.innerHTML = n + suf;
+        }, 26);
+      }
+    });
+  }, {threshold: .3});
+  counters.forEach(c => cIO.observe(c));
+
+  /* ============ PORTRAIT TILT — только ПК ============ */
+  const portrait = document.querySelector('.portrait');
+  if(portrait && !isTouch){
+    portrait.addEventListener('mousemove', e => {
+      const r = portrait.getBoundingClientRect();
+      const x = (e.clientX - r.left) / r.width - .5;
+      const y = (e.clientY - r.top) / r.height - .5;
+      portrait.style.transform = `perspective(900px) rotateY(${x*4}deg) rotateX(${-y*4}deg)`;
+      portrait.style.transition = 'transform .1s linear';
+    });
+    portrait.addEventListener('mouseleave', () => {
+      portrait.style.transition = 'transform .6s cubic-bezier(.22,1,.36,1)';
+      portrait.style.transform = '';
+    });
+  }
+</script>
+</body>
+</html>
